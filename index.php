@@ -11,7 +11,7 @@
       <h1>ドーナツが<br>もらえる<br>キャンペーン</h1>
     </div>
     <div class="top_btn">
-      <p>キャンペーンへ応募する from first</p>
+      <p>キャンペーンへ応募する</p>
     <a href=""></a>
     </div>
   </div>
