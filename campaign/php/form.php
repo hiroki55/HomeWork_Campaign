@@ -5,6 +5,8 @@ require_once('functions.php');
 
 session_start();
 
+$email_c = '';
+
 if (($_SESSION['id']))
 {
   header('Location: result.php');
@@ -39,6 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $errors['adnum'] = '郵便番号が未入力です';
   }
 
+  if(preg_match("/^[0-9]+$/", $adnum_a) || preg_match("/^[0-9]+$/", $adnum_b))
+  {
+    $errors['adnum_num'] = '半角数字で入力して下さい';
+  }
+
   if ($adress == '')
   {
     $errors['adress'] = '住所が未入力です';
@@ -48,39 +55,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $errors['checkbox'] = '応募規約に同意して下さい';
   }
 
-    // バリデーション突破後
-  if (empty($errors))
-  {
-    $dbh = connectDatabase();
 
-    $sql = "insert into users (name, email, adnum_a, adnum_b, adress,created_at,password) values (:name, :email, :adnum_a, :adnum_b, :adress, now(),:password);";
-    $stmt = $dbh->prepare($sql);
+  if(isset($email)){
+   $dbh = connectDatabase();
+   $sql = "select * from users where email = :email";
+   $stmt = $dbh->prepare($sql);
+   $stmt->bindParam(":email", $email);
+   $stmt->execute();
+   $email_check = $stmt->fetch();
 
-    $stmt->bindParam(":name", $name);
-    $stmt->bindParam(":email", $email);
-    $stmt->bindParam(":adnum_a", $adnum_a);
-    $stmt->bindParam(":adnum_b", $adnum_b);
-    $stmt->bindParam(":adress", $adress);
-    $stmt->bindParam(":password",$password);
-    $stmt->execute();
+   if($email_check){
 
-    $sql = "select * from users where name = :name and password = :password";
-    $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(":name", $name);
-    $stmt->bindParam(":password", $password);
-    $stmt->execute();
-
-    $row = $stmt->fetch();
-
-    var_dump($row);
-
-    $_SESSION['password'] = $row['password'];
-    $_SESSION['id'] = $row['id'];
-
-    header('Location: done.php');
-    exit;
-
+     if(isset($email_check))
+     {
+      $email_c  = "このメールアドレスは既に登録されています";
+    }
   }
+}
+
+    // バリデーション突破後
+
+if (empty($errors) && !isset($email_check))
+{
+  $dbh = connectDatabase();
+
+  $sql = "insert into users (name, email, adnum_a, adnum_b, adress,created_at,password) values (:name, :email, :adnum_a, :adnum_b, :adress, now(),:password);";
+  $stmt = $dbh->prepare($sql);
+
+  $stmt->bindParam(":name", $name);
+  $stmt->bindParam(":email", $email);
+  $stmt->bindParam(":adnum_a", $adnum_a);
+  $stmt->bindParam(":adnum_b", $adnum_b);
+  $stmt->bindParam(":adress", $adress);
+  $stmt->bindParam(":password",$password);
+  $stmt->execute();
+
+  $sql = "select * from users where email = :email and password = :password";
+  $stmt = $dbh->prepare($sql);
+  $stmt->bindParam(":email", $email);
+  $stmt->bindParam(":password", $password);
+  $stmt->execute();
+
+  $row = $stmt->fetch();
+
+  $_SESSION['password'] = $row['password'];
+
+  header('Location: done.php');
+  exit;
+
+}
 }
 
 ?>
@@ -119,9 +142,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
               <td>
                 <input class="input" name="email"type="text"
                 value="<?php echo $email?>">
-                <p class="vali_red"><?php if ($errors['email']) : ?>
-                  <?php echo h($errors['email']) ?>
-                <?php endif; ?></p>
+                <p class="vali_red">
+                  <?php if ($errors['email']) : ?>
+                    <?php echo h($errors['email']) ?>
+                  <?php endif; ?>
+                  <?php if ($email_c) : ?>
+                    <?php echo h($email_c) ?>
+                  <?php endif; ?>
+                </p>
               </td>
             </tr>
             <tr>
@@ -133,6 +161,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 value="<?php echo $adnum_b?>">
                 <p class="vali_red"><?php if ($errors['adnum']) : ?>
                   <?php echo h($errors['adnum']) ?>
+                <?php endif; ?>
+                <?php if ($errors['adnum_num']) : ?>
+                  <?php echo h($errors['adnum_num']) ?>
                 <?php endif; ?></p>
               </td>
             </tr>
@@ -165,5 +196,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       </div>
     </div>
   </div>
+</body>
+</html>    </form>
+</div>
+</div>
+</div>
 </body>
 </html>

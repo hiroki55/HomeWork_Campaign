@@ -34,5 +34,6 @@ $result = rand(0,10);
       </div>
     </div>
   </div>
+  <a href="logout.php">ログアウト</a>
 </body>
 </html>
