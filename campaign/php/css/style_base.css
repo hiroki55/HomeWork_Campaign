@@ -21,7 +21,7 @@ html,body{
 }
 
 .top_bg{
-  background-image: url("head.jpg");
+  background-image: url("images/head.jpg");
   background-size: cover;
   height:150px;
 }

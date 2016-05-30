@@ -1,11 +1,19 @@
+<?php
+
+session_start();
+
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>応募フォーム</title>
-  <link rel="stylesheet" href="style_base.css">
-  <link rel="stylesheet" href="style_done.css">
+  <link rel="stylesheet" href="css/style_base.css">
+  <link rel="stylesheet" href="css/style_done.css">
 </head>
 <body>
   <div class="white_bg">
@@ -18,7 +26,11 @@
       </div>
       <div class="pass_done">
         <p>結果確認用パスワード:</p>
-        <p class="pass_red">111111111</p>
+        <p class="pass_red"><?php echo $_SESSION['password']; ?></p>
+      </div>
+      <div class="top_btn">
+      <p>早速応募する！</p>
+        <a href="login.php"></a>
       </div>
     </div>
   </div>

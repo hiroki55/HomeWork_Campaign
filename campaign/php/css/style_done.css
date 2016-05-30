@@ -1,23 +1,31 @@
-
-
-html{
-  width:100%;
-
-}
-
-body{
-  width:1000px;
-  height: 677px;
-  background-image: url("main.jpg");
-  background-repeat: no-repeat;
-  background-position:center;
+.massage_done{
   margin:0 auto;
+  width:100%;
+  margin-top: 90px;
+  font-weight: bold;
+  letter-spacing: 3px;
 }
 
-#title h1{
-  color:white;
+.massage_done p{
+  text-align: center;
+}
+
+.pass_done{
+  margin:0 auto;
+  width:100%;
+  margin-top: 40px;
   font-weight: bold;
-  font-size: 95px;
+  letter-spacing: 3px;
+}
+
+.pass_done p{
+  text-align: center;
+}
+
+.pass_red{
+  color: red;
+  font-size: 45px;
+  margin-top: 10px;
 }
 
 .top_btn{
@@ -50,23 +58,3 @@ body{
 .top_btn:hover{
   opacity: 0.8;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
