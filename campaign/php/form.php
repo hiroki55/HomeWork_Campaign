@@ -36,6 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $errors['email'] = 'メールアドレスが未入力です';
   }
 
+  if(!preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@\[?([\d\w\.-]+)]?$/', $email))
+  {
+    $errors['email_e'] = 'メールアドレスが不適切です';
+  }
+
   if ($adnum_a == '' || $adnum_b == '')
   {
     $errors['adnum'] = '郵便番号が未入力です';
@@ -149,6 +154,9 @@ if (empty($errors) && !isset($email_check))
                   <?php if ($email_c) : ?>
                     <?php echo h($email_c) ?>
                   <?php endif; ?>
+                  <?php if ($errors['email_e']) : ?>
+                    <?php echo h($errors['email_e']) ?>
+                  <?php endif; ?>
                 </p>
               </td>
             </tr>
@@ -196,10 +204,5 @@ if (empty($errors) && !isset($email_check))
       </div>
     </div>
   </div>
-</body>
-</html>    </form>
-</div>
-</div>
-</div>
 </body>
 </html>
