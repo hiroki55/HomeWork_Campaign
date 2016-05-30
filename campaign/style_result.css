@@ -1,0 +1,15 @@
+.result_message p{
+  text-align: center;
+  font-weight: bold;
+  margin-top: 70px;
+
+}
+
+.result_red{
+  text-align: center;
+  font-weight: bold;
+  color:red;
+  font-size: 40px;
+  padding-bottom: 70px;
+  line-height: 70px;
+}
