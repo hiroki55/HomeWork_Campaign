@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $errors['adnum'] = '郵便番号が未入力です';
   }
 
-  if(preg_match("/^[0-9]+$/", $adnum_a) || preg_match("/^[0-9]+$/", $adnum_b))
+  if(!preg_match("/^[0-9]{3}+$/", $adnum_a) || !preg_match("/^[0-9]{4}+$/", $adnum_b))
   {
     $errors['adnum_num'] = '半角数字で入力して下さい';
   }
